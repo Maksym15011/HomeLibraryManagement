@@ -42,9 +42,9 @@ class Author(models.Model):
         ('prof', 'Prof.'),
     ]
 
-    firstname = models.CharField(max_length=100)
-    lastname = models.CharField(max_length=100)
-    alias = models.CharField(max_length=100, blank=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    alias = models.CharField(max_length=100, blank=True, null=True)
     nationality = models.CharField(max_length=100)
     title = models.CharField(max_length=100, choices=TITLE, blank=True, null=True)
 class Publisher(models.Model):

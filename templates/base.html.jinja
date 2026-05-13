@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Biblioteka</title>
+  </head>
+
+  <body class="min-h-screen flex flex-col">
+
+    <nav class="bg-gray-800 text-white">
+      <div
+        class="container mx-auto px-6 py-4 flex items-center justify-between"
+      >
+        <a class="text-2xl font-bold hover:text-amber-400 transition" href="/">
+          Biblioteka
+        </a>
+
+        <ul class="flex items-center gap-6">
+          <li>
+            <a href="/" class="hover:text-amber-400 transition">Książki</a>
+          </li>
+          <li>
+            <a href="/authors/" class="hover:text-amber-400 transition">
+              Autorzy
+            </a>
+          </li>
+          <li>
+            <a href="/publishers/" class="hover:text-amber-400 transition">
+              Wydawcy
+            </a>
+          </li>
+          <li>
+            <a href="/series/" class="hover:text-amber-400 transition">
+              Serie
+            </a>
+          </li>
+          <li>
+            <a href="/" class="hover:text-amber-400 transition">
+              Gatunki
+            </a>
+          </li>
+          <li>
+            <a href="#" class="hover:text-amber-400 transition">
+              Tematy
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-6 py-8">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6 ">
+      <div class="container mx-auto px-6 items-center text-center">
+        <p>&copy; 2026 Biblioteka. Wszystkie prawa zastrzeżone.</p>
+      </div>
+    </footer>
+
+  </body>
+</html>
