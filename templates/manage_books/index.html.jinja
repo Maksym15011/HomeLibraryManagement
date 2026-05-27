@@ -1,10 +1,12 @@
 <!doctype html>
 {% extends "base.html.jinja" %}
-
+{% block title %}Lista książek{% endblock %}
 {% block content %}
 <section class="w-full grid grid-cols-[1fr_3fr] gap-4 h-[calc(100vh-52px)] place-content-center">
-    <div class="flex flex-col gap-4 justify-center">
-        <input type="text" placeholder="Search..." class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+
+    <div class="flex flex-col bg-white rounded-lg shadow-md p-4">
+        <h3 class="text-md font-semibold mb-2">Filtruj książki</h3>
+        <input type="text" placeholder="Search..." class="w-full px-4 py-2 mb-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
         <ul class="space-y-2">
             <li>
                 <details class="group">
@@ -44,8 +46,16 @@
             </li>
         </ul>
     </div>
-    <div>
-        Content
+    <div class="flex flex-col bg-white rounded-lg shadow-md p-4">
+        <h3 class="text-md font-semibold mb-2">Książki</h3>
+        {% for book in books %}
+            <div class="border-b py-2">
+                <a href="{% url 'book' book.id %}" class="text-blue-500 hover:underline">{{ book.title }}</a>
+                <p class="text-sm text-gray-600">{{ book.author }}</p>
+            </div> 
+            {% empty %}
+            <p class="text-gray-600">No books available.</p>
+            {% endfor %}
     </div>
 </section>
 {% endblock %}
