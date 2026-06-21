@@ -1,0 +1,32 @@
+{% extends "base.html.jinja" %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-6">
+    Wydawcy
+</h1>
+
+<div class="bg-white shadow rounded-lg p-6">
+
+{% for publisher in publishers %}
+
+    <div class="border-b py-3">
+
+        <a
+            href="{% url 'publisher' publisher.id %}"
+            class="text-blue-500 hover:underline"
+        >
+            {{ publisher.name }}
+        </a>
+
+    </div>
+
+{% empty %}
+
+    <p>Brak wydawców.</p>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

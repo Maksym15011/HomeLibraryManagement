@@ -1,5 +1,6 @@
 from django.db import models
 import pytz
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Book(models.Model):
@@ -38,7 +39,11 @@ class Book(models.Model):
     genres = models.ManyToManyField('Genre', related_name='books', blank=True)
     topics = models.ManyToManyField('Topic', related_name='books', blank=True)
 
+    def __str__(self):
+        return self.title
+
 class Author(models.Model):
+
     TITLE = [
         ('ks', 'Ks.'),
         ('bp', 'Bp.'),
@@ -51,26 +56,56 @@ class Author(models.Model):
     alias = models.CharField(max_length=100, blank=True, null=True)
     nationality = models.CharField(max_length=100)
     title = models.CharField(max_length=100, choices=TITLE, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+    
+
+    
 class Publisher(models.Model):
     name = models.CharField(max_length=200)
     country = models.CharField(max_length=2, choices=pytz.country_names.items())
     founded_year = models.IntegerField()
     website = models.URLField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
     
 class Genre(models.Model): #gatunek książki
     name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.name
 
 class Series(models.Model): #seria książek
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     authors = models.ManyToManyField(Author, related_name='series_authors', blank=True)
+
+    def __str__(self):
+        return self.name
+
 class Topic(models.Model): #tematyka książki
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
 
-class Note(models.Model): #notatka do książki
+    def __str__(self):
+        return self.name
+
+class Note(models.Model):
     content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    book = models.ForeignKey(
+        Book,
+        on_delete=models.CASCADE
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )

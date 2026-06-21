@@ -1,0 +1,21 @@
+{% extends "base.html.jinja" %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-6">
+    Gatunki
+</h1>
+
+<div class="bg-white shadow rounded-lg p-6">
+
+    {% for genre in genres %}
+        <div class="border-b py-3">
+            {{ genre.name }}
+        </div>
+    {% empty %}
+        <p>Brak gatunków.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

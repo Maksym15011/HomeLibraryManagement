@@ -1,61 +1,184 @@
 <!doctype html>
-{% extends "base.html.jinja" %}
-{% block title %}Lista książek{% endblock %}
-{% block content %}
-<section class="w-full grid grid-cols-[1fr_3fr] gap-4 h-[calc(100vh-52px)] place-content-center">
 
-    <div class="flex flex-col bg-white rounded-lg shadow-md p-4">
-        <h3 class="text-md font-semibold mb-2">Filtruj książki</h3>
-        <input type="text" placeholder="Search..." class="w-full px-4 py-2 mb-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+{% extends "base.html.jinja" %}
+
+{% block title %}
+Lista książek
+{% endblock %}
+
+{% block content %}
+
+<section class="w-full grid grid-cols-[1fr_3fr] gap-4">
+
+<div class="flex flex-col bg-white rounded-lg shadow-md p-4">
+
+    <h3 class="text-md font-semibold mb-4">
+        Filtruj książki
+    </h3>
+
+    <form method="get">
+
+        <input
+            type="text"
+            name="search"
+            value="{{ request.GET.search }}"
+            placeholder="Szukaj książki..."
+            class="w-full px-4 py-2 mb-4 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+
         <ul class="space-y-2">
+
             <li>
+
                 <details class="group">
+
                     <summary class="flex items-center justify-between cursor-pointer px-3 py-2 rounded-md bg-slate-800 hover:bg-slate-600 transition duration-200 font-medium text-white">
-                        Genre
-                        <svg class="w-4 h-4 transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        Gatunki
+
+                        <svg class="w-4 h-4 transition-transform duration-200 group-open:rotate-180"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M19 9l-7 7-7-7"/>
                         </svg>
+
                     </summary>
+
                     <div class="mt-2 space-y-1 px-3">
+
                         {% for genre in genres %}
+
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" name="genre" value="{{ genre.id }}" class="rounded">
+
+                            <input
+                                type="radio"
+                                name="genre"
+                                value="{{ genre.id }}"
+                                {% if request.GET.genre == genre.id|stringformat:"s" %}
+                                    checked
+                                {% endif %}
+                            >
+
                             <span>{{ genre.name }}</span>
+
                         </label>
+
                         {% endfor %}
+
                     </div>
+
                 </details>
+
             </li>
+
             <li>
+
                 <details class="group">
+
                     <summary class="flex items-center justify-between cursor-pointer px-3 py-2 rounded-md bg-slate-800 hover:bg-slate-600 transition duration-200 font-medium text-white">
-                        Author
-                        <svg class="w-4 h-4 transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        Autorzy
+
+                        <svg class="w-4 h-4 transition-transform duration-200 group-open:rotate-180"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M19 9l-7 7-7-7"/>
                         </svg>
+
                     </summary>
+
                     <div class="mt-2 space-y-1 px-3">
+
                         {% for author in authors %}
+
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" name="author" value="{{ author.id }}" class="rounded">
-                            <span>{{ author.first_name }} {{ author.last_name }}</span>
+
+                            <input
+                                type="radio"
+                                name="author"
+                                value="{{ author.id }}"
+                                {% if request.GET.author == author.id|stringformat:"s" %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                {{ author.first_name }} {{ author.last_name }}
+                            </span>
+
                         </label>
+
                         {% endfor %}
+
                     </div>
+
                 </details>
+
             </li>
+
         </ul>
-    </div>
-    <div class="flex flex-col bg-white rounded-lg shadow-md p-4">
-        <h3 class="text-md font-semibold mb-2">Książki</h3>
-        {% for book in books %}
-            <div class="border-b py-2">
-                <a href="{% url 'book' book.id %}" class="text-blue-500 hover:underline">{{ book.title }}</a>
-                <p class="text-sm text-gray-600">{{ book.author }}</p>
-            </div> 
-            {% empty %}
-            <p class="text-gray-600">No books available.</p>
-            {% endfor %}
-    </div>
+
+        <div class="mt-4 flex gap-2">
+
+            <button
+                type="submit"
+                class="bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-700"
+            >
+                Filtruj
+            </button>
+
+            <a
+                href="/"
+                class="border px-4 py-2 rounded-lg hover:bg-gray-100"
+            >
+                Wyczyść
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+<div class="flex flex-col bg-white rounded-lg shadow-md p-4">
+
+    <h3 class="text-md font-semibold mb-4">
+        Książki
+    </h3>
+
+    {% for book in books %}
+
+        <div class="border-b py-3">
+
+            <a
+                href="{% url 'book' book.id %}"
+                class="text-blue-600 hover:underline text-lg"
+            >
+                {{ book.title }}
+            </a>
+
+            <p class="text-sm text-gray-600">
+                {{ book.author }}
+            </p>
+
+        </div>
+
+    {% empty %}
+
+        <p class="text-gray-500">
+            Nie znaleziono książek.
+        </p>
+
+    {% endfor %}
+
+</div>
+
 </section>
+
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html.jinja" %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-6">
+    Tematy
+</h1>
+
+<div class="bg-white shadow rounded-lg p-6">
+
+    {% for topic in topics %}
+        <div class="border-b py-3">
+            {{ topic.name }}
+        </div>
+    {% empty %}
+        <p>Brak tematów.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

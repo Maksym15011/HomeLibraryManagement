@@ -1,1 +1,98 @@
 {% extends "base.html.jinja" %}
+
+{% block content %}
+
+<div class="max-w-5xl mx-auto">
+
+<div class="bg-white rounded-xl shadow-lg overflow-hidden">
+
+    <div class="bg-slate-800 text-white p-8">
+
+        <h1 class="text-4xl font-bold">
+            {{ author.first_name }}
+            {{ author.last_name }}
+        </h1>
+
+        {% if author.alias %}
+        <p class="text-slate-300 mt-2">
+            Pseudonim: {{ author.alias }}
+        </p>
+        {% endif %}
+
+    </div>
+
+    <div class="p-8">
+
+        <h2 class="text-xl font-semibold border-b pb-2 mb-4">
+            Informacje o autorze
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-4">
+
+            <div>
+                <strong>Imię:</strong>
+                {{ author.first_name }}
+            </div>
+
+            <div>
+                <strong>Nazwisko:</strong>
+                {{ author.last_name }}
+            </div>
+
+            <div>
+                <strong>Tytuł:</strong>
+
+                {% if author.title %}
+                    {{ author.get_title_display }}
+                {% else %}
+                    Brak
+                {% endif %}
+            </div>
+
+            <div>
+                <strong>Narodowość:</strong>
+                {{ author.nationality }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="px-8 pb-8">
+
+        <h2 class="text-xl font-semibold border-b pb-2 mb-4">
+            Książki autora
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-4">
+
+            {% for book in author.books.all %}
+
+                <a
+                    href="{% url 'book' book.id %}"
+                    class="block border rounded-lg p-4 hover:bg-slate-50 transition"
+                >
+                    <div class="font-semibold">
+                        {{ book.title }}
+                    </div>
+
+                    <div class="text-sm text-gray-500 mt-1">
+                        {{ book.publication_date }}
+                    </div>
+                </a>
+
+            {% empty %}
+
+                <p>Brak książek.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+{% endblock %}
